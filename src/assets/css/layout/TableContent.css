@@ -1,0 +1,241 @@
+.table-content{
+    background-color: #ffffff;
+    width: 100%;
+    overflow: hidden;
+}
+.table-function{
+    height: 74px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.input-search{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 240px;
+}
+
+.icon-search{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -992px -360px;
+	width: 16px;
+	height: 16px;
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+}
+
+.filter-refresh-export{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.refresh-button-container{
+    width: 21px;
+	height: 23px;
+    margin: 0px 16px;
+}
+
+.refresh-button{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -425px -201px;
+	width: 21px;
+	height: 23px;
+    cursor: pointer;
+}
+
+.refresh-button:hover{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -1098px -90px;
+	width: 20px;
+	height: 21px;
+    cursor: pointer;
+}
+.export-btn{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -705px -202px;
+	width: 23px;
+	height: 20px;
+    cursor: pointer;
+}
+.export-btn:hover{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -705px -258px;
+	width: 23px;
+	height: 20px;
+    cursor: pointer;
+}
+.table-container{
+    position: relative;
+    width: 100%;
+    background-color: #ffffff;
+    overflow: auto;
+    max-height: calc(100vh - 253px);
+}
+
+.table-container::-webkit-scrollbar{
+    width: 8px;
+    height: 8px;
+    background-color: #f1f1f1;
+}
+.table-container::-webkit-scrollbar-thumb{
+    background-color: #b8bcc3;
+}
+
+table{
+    width: 100%;
+    max-height: 400px;
+    overflow: auto;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    border-spacing: 0;
+}
+table thead tr{
+    height: 34px;
+}
+table thead th{
+    font-size: 12px;
+    font-weight: 700;
+    height: 34px;
+    max-width: 250px;
+    min-width: 130px;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    border-spacing: 0;
+    background-color: #eceef1;
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+    color:  #000 !important;
+    position: sticky;
+    z-index: 2;
+    top: 0px;
+}
+
+table tbody td{
+    border-right: 1px dotted #c7c7c7;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+table tbody tr{
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+tr:hover td{
+    background-color: #f3f8f8;
+}
+
+.sticky-th{
+    position: sticky;
+    top: 0px;
+}
+
+th.th-checkbox{
+    min-width: 40px !important;
+    width: 40px;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+th.empty-row,
+td.empty-row{
+    min-width: 20px !important;
+    background-color: #ffffff !important;
+    left: 0px;
+    position: sticky;
+    box-sizing: border-box;
+    border: 0px !important;
+    z-index: 3;
+}
+.col-checkbox{
+    left: 20px;
+    position: sticky;
+    box-sizing: border-box;
+    margin: 4px 0px 0px 0px;
+}
+.col-code{
+    min-width: 143px;
+    left: 60px;
+    position: sticky;
+    box-sizing: border-box;
+    z-index: 3;
+}
+.col-name{
+    min-width: 250px;
+    left: 203px;
+    position: sticky;
+    box-sizing: border-box;
+    z-index: 3;
+}
+.col-function{
+    right: 20px;
+    position: sticky;
+    box-sizing: border-box;
+    border-right: 0px;
+    border-left: 1px solid #c7c7c7;
+    font-size: 13px;
+    font-family: SemiBold-NotoSans;
+    text-align: center;
+    color: #0075c0;
+}
+
+.drop-function{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -896px -359px;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+.td-function{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.last-col{
+    background-color: #ffffff !important;
+    min-width: 20px;
+    right: 0px;
+    position: sticky;
+    box-sizing: border-box;
+    border: 0px;
+}
+tr td{
+    background-color: #ffffff;
+    height: 47px;
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+    padding: 5px 10px;
+    z-index: 1 !important;
+}
+
+.paging-bar{
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 46px;
+    width: 100%;
+    background-color: #ffffff;
+    position: sticky;
+    bottom: 0px;
+    z-index: 7;
+    border-top: 1px solid #c7c7c7;
+}
+.total-record{
+    display: flex;
+}
+.pagination{
+    margin-bottom: 0px !important;
+    color: #000 !important;
+}
+.page-item{
+    border: 0 !important;
+}
+.active{
+    background-color: #fff !important;
+}

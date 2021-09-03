@@ -1,0 +1,46 @@
+.toast-messenger{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 80px;
+    right: 0px;
+    height: 58px;
+    min-width: 250px;
+    padding: 0px 20px 0px 12px;
+    border-radius: 2px;
+    z-index: 50;
+}
+
+.border-success{
+    border: 1px solid #2ca01c;
+    color: #2ca01c;
+    background-color: #e8f6f0;
+}
+
+.border-erro{
+    border: 1px solid #ff7777;
+    background-color: #fae7e7;
+}
+
+.icon-toast{
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+.icon-success{
+    background: url('../../img/Sprites.64af8f61.svg')  no-repeat -96px -962px;
+	width: 32px;
+	height: 32px;
+}
+
+.icon-erro{
+    background: url('../../img/Sprites.64af8f61.svg')  no-repeat -32px -962px;
+	width: 32px;
+	height: 32px;
+}
+
+.toast-title{
+    font-size: 14px;
+    font-family: SemiBold-NotoSans;
+}

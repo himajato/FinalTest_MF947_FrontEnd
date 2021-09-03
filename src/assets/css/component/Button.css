@@ -1,0 +1,34 @@
+button{
+    border: 0px;
+    outline: 0px;
+    padding: 0px 20px;
+}
+.primary-button{
+    font-size: 13px;
+    background-color: #2ca01c;
+    height: 36px;
+    border-radius: 3px;
+    font-family: SemiBold-NotoSans;
+    color: #ffffff;
+}
+.primary-button:hover{
+    background-color: #35bf22;
+}
+
+.primary-button:active{
+    background-color: #2ca01c;
+}
+
+.secondary-button{
+    font-size: 13px;
+    background-color: #ffffff;
+    border: 1px solid #8d9096;
+    height: 36px;
+    border-radius: 3px;
+    font-family: SemiBold-NotoSans;
+    color: #000000;
+}
+
+.secondary-button:hover{
+    background-color: #d2d3d6;
+}

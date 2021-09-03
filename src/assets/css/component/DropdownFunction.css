@@ -1,0 +1,23 @@
+.function-container{
+    background-color: #fff;
+    border: 1px solid #babec5;
+    border-radius: 2px;
+    padding: 2px 1px;
+    position: absolute;
+    box-sizing: border-box;
+    width: 120px;
+    z-index: 18;
+}
+.function-item{
+    position: relative;
+    height: 28px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+.function-item:hover{
+    color: #08bf1e;
+    background-color: #e8e9ec;
+}

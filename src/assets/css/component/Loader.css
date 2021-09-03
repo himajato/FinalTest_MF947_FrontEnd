@@ -1,0 +1,15 @@
+.loader{
+    background-image: url('../../loading.svg');
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 50%;
+    left: 50%;
+    
+}
+.rotate{
+    animation: rotate 1.5s linear infinite; 
+  }
+  @keyframes rotate{
+    to{ transform: rotate(360deg); }
+  }

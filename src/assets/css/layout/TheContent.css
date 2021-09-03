@@ -1,0 +1,27 @@
+.thecontent{
+    position: absolute;
+    top: 48px;
+    background-color: #f8f8f8;
+    width: calc(100% - 180px);
+    height: calc(100% - 48px);
+    padding: 0px 20px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+.title-and-button{
+    background-color: #f4f5f8;
+    height: 84px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.title{
+    font-family: SemiBold-NotoSans;
+    font-size: 24px;
+}
+.pagin-container{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    
+}

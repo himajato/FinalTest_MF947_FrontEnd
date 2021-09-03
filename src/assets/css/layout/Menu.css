@@ -1,0 +1,155 @@
+.menu{
+    width: 180px;
+    height: 100%;
+    background-color: #393a3d;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+.logo-container{
+    padding: 12px 24px 12px 24px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.logo-container .toggle-btn{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -424px -86px;
+    height: 24px;
+    width: 24px;
+    margin-right: 10px;
+}
+.logo-container .img-icon{
+    background-image: url('../../../assets/img/Logo_Module_TiengViet_White.66947422.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 32px;
+    width: 96px;
+}
+
+.menu-items-list{
+    position: absolute;
+    top: 48px;
+    height: calc(100% - 48px);
+    width: 180px;
+    padding-top: 14px;
+    box-sizing: border-box;
+    size: 13px;
+    overflow: hidden;
+    overflow-y: auto;
+    background-color: #393a3d;
+}
+
+.menu-items-list::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+    display: block;
+    background-color: #f1f1f1;
+}
+
+.menu-items-list::-webkit-scrollbar-thumb{
+    background-color: #d4d7dc;
+}
+
+.menu-item{
+    height: 42px;
+    width: 180px;
+    align-items: center;
+    display: flex;
+    padding: 0px 14px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+.menu-item:hover{
+    background-color: #5d5d61;
+}
+
+.menu-item-icon{
+    width: 18px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.icon-overview{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -33px -1630px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+
+.icon-cash{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -78px -1631px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+.icon-cash-inbank{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -121px -1633px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+.icon-buy-goods{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -165px -1632px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+.icon-sell-goods{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -206px -1631px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+.icon-manage-order{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -254px -1632px;
+	width: 24px;
+	height: 24px;
+    justify-content: center;
+}
+.icon-store{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -294px -1632px;
+	width: 24px;
+	height: 24px;
+}
+.icon-tools{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -339px -1633px;
+	width: 18px;
+	height: 17px;
+}
+.icon-fix-assets{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -382px -1632px;
+	width: 17px;
+	height: 18px;
+}
+.icon-tax{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -427px -1634px;
+	width: 16px;
+	height: 16px;
+}
+.icon-cost{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -471px -1633px;
+	width: 17px;
+	height: 17px;
+}
+.icon-genaral{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -514px -1632px;
+	width: 16px;
+	height: 18px;
+}
+.icon-budget{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -382px -1664px;
+	width: 16px;
+	height: 16px;
+}
+.icon-report{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -552px -1636px;
+	width: 14px;
+	height: 13px;
+}
+.icon-analysis{
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -207px -1667px;
+	width: 17px;
+	height: 14px;
+}
