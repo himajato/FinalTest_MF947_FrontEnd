@@ -16,6 +16,7 @@
 
 <script>
 import BaseButton from "../../components/Button.vue";
+import { MISA_RESOUCE } from '../../js/resouce/resouce';
 export default {
   props:{
       emptyField:{
@@ -37,7 +38,7 @@ export default {
   data() {
     return {
       confirmButtonInfor:{
-          buttonTitle: "Đóng",
+          buttonTitle: MISA_RESOUCE.BUTTON_CLOSE,
           isPrimaryButton: true,
       },
     };

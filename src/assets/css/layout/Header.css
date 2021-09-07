@@ -2,6 +2,8 @@
     position: absolute;
     height: 48px;
     width: calc(100% - 180px);
+    right: 0px;
+    background-color: #fff;
     padding-left: 10px;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -11,6 +13,10 @@
     size: 13px;
     text-align: center;
     box-sizing: border-box;
+}
+
+.header-toggle{
+    width: calc(100% - 46px);
 }
 
 .icon-header{
@@ -72,3 +78,5 @@
   width: 9px;
   cursor: pointer;
 }
+
+

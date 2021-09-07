@@ -1,9 +1,16 @@
 <template>
     <div style="display: flex">
-      <Menu/>
+      <Menu
+      @toggleSideBar="toggleSideBar"
+      :isToggle="isToggle"
+      />
       <div>
-        <Header/>
-        <TheContent/>
+        <Header
+        @toggleSideBar="toggleSideBar"
+        :isToggle="isToggle"
+        />
+        <TheContent
+        :isToggle="isToggle"/>
       </div>
     </div>
 </template>
@@ -22,11 +29,25 @@ export default {
   },
 
   methods: {
-  }
+    toggleSideBar(){
+      this.isToggle = !this.isToggle
+    }
+  },
 
+  data(){
+    return{
+      isToggle: false,
+    }
+  }
 }
 </script>
 
 <style>
   @import './assets/css/Main.css';
+  .header-and-content{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    right: 0px;
+  }
 </style>

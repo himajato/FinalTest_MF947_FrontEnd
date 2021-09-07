@@ -16,6 +16,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Sự kiện custom click vào nút để emit lên component cha
+         */
         clickFunction(){
             this.$emit("clickFunction")
         }

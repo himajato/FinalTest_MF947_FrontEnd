@@ -25,9 +25,18 @@ export default {
     },
 
     methods:{
+        /**
+         * Sự kiện ấn vào nút nhân bản ở dropdown function
+         * created by: NHNGHIA (01/09/2021)
+         */
         onCoppyClick(){
             this.$emit('onCoppyClick');
         },
+
+        /**
+         * Sự kiện ấn vào nút xóa ở drop function
+         * created by: NHNGHIA (01/09/2021)
+         */
         onDeleteClick(){
             this.$emit('onDeleteClick');
         }

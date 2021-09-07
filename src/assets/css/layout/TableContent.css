@@ -108,7 +108,7 @@ table thead th{
     background-color: #eceef1;
     border-bottom: 1px solid #c7c7c7;
     border-right: 1px solid #c7c7c7;
-    color:  #000 !important;
+    color:  #111111 !important;
     position: sticky;
     z-index: 2;
     top: 0px;
@@ -178,7 +178,6 @@ td.empty-row{
     border-right: 0px;
     border-left: 1px solid #c7c7c7;
     font-size: 13px;
-    font-family: SemiBold-NotoSans;
     text-align: center;
     color: #0075c0;
 }
@@ -194,7 +193,7 @@ td.empty-row{
     display: flex;
     align-items: center;
     justify-content: center;
-
+    font-family: SemiBold-NotoSans;
 }
 
 .last-col{

@@ -8,18 +8,20 @@
         </div>
       </div>
       <div class="popup-footer">
-          <BaseButton
+        <BaseButton
           @clickFunction="closePopUp"
-          :buttonInfor="closeButtonInfor"/>
+          :buttonInfor="closeButtonInfor"
+        />
         <div style="margin-left: auto; display: flex">
           <BaseButton
-          style="margin-right: 8px"
-          @clickFunction="forceClose"
+            style="margin-right: 8px"
+            @clickFunction="forceClose"
             :buttonInfor="cancelButtonInfor"
           />
-          <BaseButton 
-          @clickFunction="saveInfor"
-          :buttonInfor="confirmButtonInfor" />
+          <BaseButton
+            @clickFunction="saveInfor"
+            :buttonInfor="confirmButtonInfor"
+          />
         </div>
       </div>
     </div>
@@ -28,43 +30,49 @@
 
 <script>
 import BaseButton from "../../components/Button.vue";
+import { MISA_RESOUCE } from '../../js/resouce/resouce';
 export default {
   components: {
     BaseButton,
   },
 
   methods: {
-      /**
-       * Custom event đóng popup để gửi lên component cha
-       */
-      closePopUp(){
-          this.$emit("closePopup")
-      },
+    /**
+     * Custom event đóng popup để gửi lên component cha
+     */
+    closePopUp() {
+      this.$emit("closePopup");
+    },
 
-      forceClose(){
-        this.$emit('forceClose');
-      },
+    /**
+     * Custom event đóng popup mà không cần hỏi
+     */
+    forceClose() {
+      this.$emit("forceClose");
+    },
 
-      saveInfor(){
-        this.$emit('saveInfor');
-      }
+    /*
+    * Custom event cất dữ liệu
+    */
+    saveInfor() {
+      this.$emit("saveInfor");
+    },
   },
 
   data() {
     return {
-        closeButtonInfor:{
-            buttonTitle: "Hủy",
-            isSecondaryButton: true,
-        },
+      closeButtonInfor: {
+        buttonTitle: MISA_RESOUCE.BUTTON_CANCEL,
+        isSecondaryButton: true,
+      },
       confirmButtonInfor: {
-        buttonTitle: "Có",
+        buttonTitle: MISA_RESOUCE.BUTTON_OK,
         isPrimaryButton: true,
       },
       cancelButtonInfor: {
-        buttonTitle: "Không",
+        buttonTitle: MISA_RESOUCE.BUTTON_NO,
         isSecondaryButton: true,
       },
-      
     };
   },
 };

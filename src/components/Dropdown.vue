@@ -51,6 +51,10 @@ export default {
             this.recordPerPage = itemSelect.Name;
             this.isShowDataList = false;
             this.$emit("selectRecordPerPage", itemSelect.Count);
+        },
+
+        resetDropdown(){
+            this.selectRecordPerPage(this.items[0]);
         }
     },
 

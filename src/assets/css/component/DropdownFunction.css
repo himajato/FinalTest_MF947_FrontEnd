@@ -3,7 +3,7 @@
     border: 1px solid #babec5;
     border-radius: 2px;
     padding: 2px 1px;
-    position: absolute;
+    position: fixed;
     box-sizing: border-box;
     width: 120px;
     z-index: 18;

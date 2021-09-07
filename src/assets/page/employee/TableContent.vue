@@ -27,19 +27,18 @@
           <tr style="height: 34px">
             <th class="empty-row"></th>
             <th class="th-checkbox col-checkbox">
-                <input type="checkbox">
             </th>
             <th class="col-code">MÃ NHÂN VIÊN</th>
             <th class="col-name">TÊN NHÂN VIÊN</th>
             <th style="width: 105px">GIỚI TÍNH</th>
             <th style="text-align: center">NGÀY SINH</th>
-            <th>Số CMTND</th>
-            <th>Chức Danh</th>
-            <th>Tên đơn vị</th>
-            <th>Số tài khoản</th>
-            <th>Tên ngân hàng</th>
-            <th>Chi nhánh ngân hàng</th>
-            <th class="col-function th-col">Chức năng</th>
+            <th>SỐ CMTND</th>
+            <th>CHỨC DANH</th>
+            <th>TÊN ĐƠN VỊ</th>
+            <th>SỐ TÀI KHOẢN</th>
+            <th>TÊN NGÂN HÀNG</th>
+            <th>CHI NHÁNH NGÂN HÀNG</th>
+            <th class="col-function">CHỨC NĂNG</th>
             <th class="last-col"></th>
           </tr>
         </thead>
@@ -78,6 +77,7 @@
       </div>
      <div class="pagin-container"> 
         <Dropdown
+        ref="dropdownRecord"
         @selectRecordPerPage="getDataPaging"
         style="margin-right: 20px"
         />
@@ -136,27 +136,51 @@ export default {
   },
 
   methods:{
+    /**
+     * Sự kiện khi click vào nút suất excel, emit lên component cha
+     * created by: NHNGHIA (03/09/2021)
+     */
     exportExcel(){
       this.$emit('exportExcel');
     },
 
+    /**
+     * Gửi id của nhân viên muốn update lên component cha 
+     * creatd by: NHNGHIA (01/09/2021)
+     */
     getEmployeeIdUpdate(id){
       this.$emit("getEmployeeIdUpdate", id);
     },
 
+    /**
+     * Sự kiện chọn số bản ghi trên một trang muốn hiện thị trong dropdown, gửi lên component cha
+     * created by: NHNGHIA (01/09/2021)
+     */
     getDataPaging(count){
       this.$emit("getDataPaging", count);
     },
 
+    /**
+     * Sự kiện click vào nút refresh 
+     * created by: NHNGHIA (01/09/2021)
+     */
     onRefreshClick(){
       this.filter = '';
       this.$emit('onRefreshClick');
     },
 
+    /**
+     * Sự kiện click chọn trang để hiện thị
+     * created by: NHNGHIA (01/09/2021)
+     */
     setCurrentPage(number){
       this.currentPage = number;
     },
 
+    /**
+     * Sự kiện lấy vị trí và thông tin nhân viên tại con trỏ chuột khi click
+     * created by: NHNGHIA (02/09/2021)
+     */
     getPosition(e,employee){
       this.$emit("getPosition",e.x , e.y,employee.EmployeeId);
     }

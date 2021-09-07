@@ -99,6 +99,9 @@ export default {
       this.$emit('dataItemSelect',item.Id);
     },
 
+    /**
+     * Sự kiện khi nhập vào ô input combobox, filter dữ liệu theo giá trị nhập
+     */
     onComboboxInput(){
       this.indexData = -1;
       var val = this.$refs.inputDepartment.value;
@@ -121,6 +124,10 @@ export default {
       }
     },
 
+    /**
+     * Sự kiện khi ấn nút mũi tên lên tại combobox
+     * created by: NHNGHIA (02/09/2021)
+     */
     onArrowKeyUpPress(){
       if (this.indexData == -1) {
         this.indexData = this.dataItems.length -1;

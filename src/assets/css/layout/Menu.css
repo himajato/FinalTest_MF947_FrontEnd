@@ -4,6 +4,7 @@
     background-color: #393a3d;
     box-sizing: border-box;
     font-size: 13px;
+    font-family: NotoSans;
 }
 .logo-container{
     padding: 12px 24px 12px 24px;
@@ -115,41 +116,50 @@
 }
 .icon-tools{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -339px -1633px;
-	width: 18px;
+	width: 24px;
 	height: 17px;
 }
 .icon-fix-assets{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -382px -1632px;
-	width: 17px;
+	width: 24px;
 	height: 18px;
 }
 .icon-tax{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -427px -1634px;
-	width: 16px;
+	width: 24px;
 	height: 16px;
 }
 .icon-cost{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -471px -1633px;
-	width: 17px;
+	width: 24px;
 	height: 17px;
 }
 .icon-genaral{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -514px -1632px;
-	width: 16px;
+	width: 24px;
 	height: 18px;
 }
 .icon-budget{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -382px -1664px;
-	width: 16px;
+	width: 24px;
 	height: 16px;
 }
 .icon-report{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -552px -1636px;
-	width: 14px;
+	width: 24px;
 	height: 13px;
 }
 .icon-analysis{
     background: url('../../img/Sprites.64af8f61.svg') no-repeat -207px -1667px;
-	width: 17px;
+	width: 24px;
 	height: 14px;
+}
+
+.header-icon-toggle{
+    position: absolute;
+    left: 10px;
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -312px -32px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
 }

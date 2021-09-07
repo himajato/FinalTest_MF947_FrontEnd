@@ -231,8 +231,9 @@
                 :buttonInfor="saveButtonInfor"
               />
               <BaseButton
-              @clickFunction="onSaveAndAddClick"
-              :buttonInfor="saveAndAddButtonInfor" />
+                @clickFunction="onSaveAndAddClick"
+                :buttonInfor="saveAndAddButtonInfor"
+              />
             </div>
           </div>
         </div>
@@ -249,6 +250,11 @@
       @closePopup="closeInforChangePopup"
       v-show="isShowInforChangePopup"
     />
+    <PopupDuplicate
+      @onCloseDuplicatePopup="onCloseDuplicatePopup"
+      :popupInfor="popupDuplicateInfor"
+      v-show="isShowDuplicatePopup"
+    />
   </div>
 </template>
 <script>
@@ -257,15 +263,17 @@ import BaseButton from "../components/Button.vue";
 import PopupInforChange from "../components/popup/PopupInforChange.vue";
 import Combobox from "../components/Combobox.vue";
 import EmployeeModel from "../models/EmployeeModel.js";
-import Format from "../../src/assets/utils/common/Format.js";
+import Format from "../../src/js/utils/common/Format.js";
 import EmployeeApi from "../../src/api/component/EmployeeApi";
-
+import PopupDuplicate from "../components/popup/PopupDuplicate.vue";
+import { MISA_RESOUCE } from "../../src/js/resouce/resouce.js"
 export default {
   components: {
     BaseButton,
     PopupEmpty,
     PopupInforChange,
     Combobox,
+    PopupDuplicate,
   },
 
   props: {
@@ -279,43 +287,80 @@ export default {
     },
   },
 
-  created() {},
+  created() {
+    this.getAllCode();
+  },
 
   methods: {
-    getDepartmentId(departmentId) {
-      this.employeeInDialog.DepartmentId = departmentId;
-      console.log(this.employeeInDialog.DepartmentId);
+    /**
+     * Sự kiện khi ấn vào nút đóng pop up cảnh báo trùng mã nhân viên
+     * created by: NHNGHIA (01/09/2021)
+     */
+    onCloseDuplicatePopup() {
+      this.isShowDuplicatePopup = false;
     },
 
+    /**
+     * Lấy danh sách các mã nhân viên đã tồn tại ở db
+     * created by: NHNGHIA(01/9/2021)
+     */
+    getAllCode() {
+      EmployeeApi.getAllCode().then((res) => {
+        this.listEmployeeCode = res.data;
+      });
+    },
+
+    /**
+     * Lấy Id phòng ban từ sự kiện click hoặc ấn enter từ component con
+     * created by: NHNGHIA(01/09/2021)
+     */
+    getDepartmentId(departmentId) {
+      this.employeeInDialog.DepartmentId = departmentId;
+
+    },
+
+    /**
+     * Sự kiện khi ấn vào cất ở trong dialog
+     * created by: NHNGHIA(01/09/2021)
+     */
     onSaveClick() {
       this.isShowInforChangePopup = false;
-      if (this.validateEmptyField() && this.checkDateInput()) {
+      if (this.validateEmptyField()) {
         if (this.dialogMode == 0 || this.dialogMode == 2) {
-          if(this.employeeInDialog.DateOfBirth == '__/__/____'){
-            this.employeeInDialog.DateOfBirth = null;
+          if (
+            this.listEmployeeCode.includes(
+              this.employeeInDialog.EmployeeCode
+            ) == false
+          ) {
+            if (this.employeeInDialog.DateOfBirth == "__/__/____") {
+              this.employeeInDialog.DateOfBirth = null;
+            }
+            if (this.employeeInDialog.DateOfBirth != null) {
+              this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
+                this.employeeInDialog.DateOfBirth
+              );
+            }
+            if (this.employeeInDialog.IdentityDate == "__/__/____") {
+              this.employeeInDialog.IdentityDate = null;
+            }
+            if (this.employeeInDialog.IdentityDate != null) {
+              this.employeeInDialog.IdentityDate = Format.dobFormatToAdd(
+                this.employeeInDialog.IdentityDate
+              );
+            }
+            EmployeeApi.add(this.employeeInDialog)
+              .then(() => {
+                this.forceCloseDialog();
+                this.$emit("showAddSuccessToast");
+              })
+              .catch(() => {
+                this.$emit("showErrorToast");
+              });
+          } else {
+            this.popupDuplicateInfor.duplicateCode =
+              this.employeeInDialog.EmployeeCode;
+            this.isShowDuplicatePopup = true;
           }
-          if (this.employeeInDialog.DateOfBirth != null) {
-            this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
-              this.employeeInDialog.DateOfBirth
-            );
-          }
-          if(this.employeeInDialog.IdentityDate == '__/__/____'){
-            this.employeeInDialog.IdentityDate = null;
-          }
-          if (this.employeeInDialog.IdentityDate != null) {
-            this.employeeInDialog.IdentityDate = Format.dobFormatToAdd(
-              this.employeeInDialog.IdentityDate
-            );
-          }
-          EmployeeApi.add(this.employeeInDialog)
-            .then(() => {
-              this.forceCloseDialog();
-              this.$emit('showAddSuccessToast');
-            })
-            .catch((err) => {
-              alert("thêm mới thất bại");
-              console.log(err);
-            });
         } else {
           if (this.employeeInDialog.DateOfBirth != null) {
             this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
@@ -333,50 +378,61 @@ export default {
           )
             .then(() => {
               this.forceCloseDialog();
-              this.$emit('reloadPage');
-              this.$emit('showUpdateSuccessToast')
+              this.$emit("reloadPage");
+              this.$emit("showUpdateSuccessToast");
             })
-            .catch((err) => {
-              console.log(err);
+            .catch(() => {
+              this.$emit("showErrorToast");
             });
         }
-      }
-      else {
+      } else {
         this.isShowEmptyPopup = true;
       }
     },
 
-    onSaveAndAddClick(){
+    /**
+     * Sự kiện khi ấn vào nút cất và thêm 
+     * created by: NHNGHIA (01/09/2021)
+     */
+    onSaveAndAddClick() {
       this.isShowInforChangePopup = false;
-      if (this.validateEmptyField() && this.checkDateInput()) {
+      if (this.validateEmptyField()) {
         if (this.dialogMode == 0 || this.dialogMode == 2) {
-          if(this.employeeInDialog.DateOfBirth == '__/__/____'){
-            this.employeeInDialog.DateOfBirth = null;
-          }
-          if (this.employeeInDialog.DateOfBirth != null) {
-            this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
-              this.employeeInDialog.DateOfBirth
-            );
-          }
-          if(this.employeeInDialog.IdentityDate == '__/__/____'){
-            this.employeeInDialog.IdentityDate = null;
-          }
-          if (this.employeeInDialog.IdentityDate != null) {
-            this.employeeInDialog.IdentityDate = Format.dobFormatToAdd(
-              this.employeeInDialog.IdentityDate
-            );
-          }
-          EmployeeApi.add(this.employeeInDialog)
-            .then(() => {
-              this.employeeInDialog = EmployeeModel.newEmployee();
-              EmployeeApi.getNewCode().then(res =>{
-                this.employeeInDialog.EmployeeCode = res.data;
+          if (this.listEmployeeCode.includes(this.employeeInDialog.EmployeeCode) == false) {
+            if (this.employeeInDialog.DateOfBirth == "__/__/____") {
+              this.employeeInDialog.DateOfBirth = null;
+            }
+            if (this.employeeInDialog.DateOfBirth != null) {
+              this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
+                this.employeeInDialog.DateOfBirth
+              );
+            }
+            if (this.employeeInDialog.IdentityDate == "__/__/____") {
+              this.employeeInDialog.IdentityDate = null;
+            }
+            if (this.employeeInDialog.IdentityDate != null) {
+              this.employeeInDialog.IdentityDate = Format.dobFormatToAdd(
+                this.employeeInDialog.IdentityDate
+              );
+            }
+            EmployeeApi.add(this.employeeInDialog)
+              .then(() => {
+                this.employeeInDialog = EmployeeModel.newEmployee();
+                EmployeeApi.getNewCode().then((res) => {
+                  this.employeeInDialog.EmployeeCode = res.data;
+                });
+                this.forcusFirstInput();
+                this.$emit("reloadPage");
+                this.$emit("showAddSuccessToast");
               })
-              this.$emit('showAddSuccessToast');
-            })
-            .catch(() => {
-              this.$emit('showErrorToast');
-            });
+              .catch(() => {
+                this.$emit("showErrorToast");
+              });
+          } else{
+            this.popupDuplicateInfor.duplicateCode =
+              this.employeeInDialog.EmployeeCode;
+            this.isShowDuplicatePopup = true;
+          }
         } else {
           if (this.employeeInDialog.DateOfBirth != null) {
             this.employeeInDialog.DateOfBirth = Format.dobFormatToAdd(
@@ -393,19 +449,19 @@ export default {
             this.employeeInDialog
           )
             .then(() => {
-             this.employeeInDialog = EmployeeModel.newEmployee();
-              EmployeeApi.getNewCode().then(res =>{
+              this.employeeInDialog = EmployeeModel.newEmployee();
+              EmployeeApi.getNewCode().then((res) => {
                 this.employeeInDialog.EmployeeCode = res.data;
-              })
-              this.$emit('reloadPage');
-              this.$emit('showUpdateSuccessToast')
+              });
+              this.$emit("reloadPage");
+              this.forcusFirstInput();
+              this.$emit("showUpdateSuccessToast");
             })
             .catch((err) => {
               console.log(err);
             });
         }
-      }
-      else {
+      } else {
         this.isShowEmptyPopup = true;
       }
     },
@@ -421,29 +477,29 @@ export default {
       ) {
         this.$emit("closeDialog");
         this.dateOfBirth = {
-        0: "_",
-        1: "_",
-        2: "/",
-        3: "_",
-        4: "_",
-        5: "/",
-        6: "_",
-        7: "_",
-        8: "_",
-        9: "_",
-      };
-      this.identityDate ={
-        0: "_",
-        1: "_",
-        2: "/",
-        3: "_",
-        4: "_",
-        5: "/",
-        6: "_",
-        7: "_",
-        8: "_",
-        9: "_",
-      };
+          0: "_",
+          1: "_",
+          2: "/",
+          3: "_",
+          4: "_",
+          5: "/",
+          6: "_",
+          7: "_",
+          8: "_",
+          9: "_",
+        };
+        this.identityDate = {
+          0: "_",
+          1: "_",
+          2: "/",
+          3: "_",
+          4: "_",
+          5: "/",
+          6: "_",
+          7: "_",
+          8: "_",
+          9: "_",
+        };
       } else if (
         JSON.stringify(this.employeeInDialogClone) !==
         JSON.stringify(this.employeeInDialog)
@@ -452,6 +508,10 @@ export default {
       }
     },
 
+    /**
+     * Xử lí sự kiện đóng popup sau khi đã kiểm tra thay đổi dữ liệu
+     * created by : NHNGHIA (01/09/2021)
+     */
     forceCloseDialog() {
       this.$emit("closeDialog");
       this.dateOfBirth = {
@@ -466,7 +526,7 @@ export default {
         8: "_",
         9: "_",
       };
-      this.identityDate ={
+      this.identityDate = {
         0: "_",
         1: "_",
         2: "/",
@@ -490,18 +550,6 @@ export default {
         this.$refs.inputCode.focus();
       });
     },
-
-    checkDateInput(){
-      if(this.employeeInDialog.DateOfBirth != null && this.employeeInDialog.DateOfBirth != '__/__/____' && this.employeeInDialog.DateOfBirth.includes('_')){
-         this.emptyField = "Ngày sinh";
-         return false;
-      } else if( this.employeeInDialog.IdentityDate != null && this.employeeInDialog.IdentityDate != '__/__/____' && this.employeeInDialog.IdentityDate.includes('_')){
-        this.emptyField = "Ngày cấp";
-        return false;
-      } else {
-        return true;
-      }
-    },
     /**
      * Đóng popup cảnh báo các trường bị trống
      * created by: NHNGHIA (30/08/2021)
@@ -518,6 +566,10 @@ export default {
       this.isShowInforChangePopup = false;
     },
 
+    /**
+     * Lấy ra index của ô input ngày sinh khi đang nhập
+     * created by: NHNGHIA (01/09/2021)
+     */
     getIndexOfDateOfBirth() {
       for (let i = 0; i < 10; i++) {
         if (this.dateOfBirth[i] == "_") {
@@ -619,6 +671,10 @@ export default {
       }
     },
 
+    /**
+     * Lấy ra index của ô input ngày cấp khi đang nhập
+     * created by: NHNGHIA (01/09/2021)
+     */
     getIndexOfIdentityDate() {
       for (let i = 0; i < 10; i++) {
         if (this.identityDate[i] == "_") {
@@ -628,6 +684,11 @@ export default {
       return -1;
     },
 
+   
+    /**
+     * đưa biến identityDate về dạng string
+     * created by: NHNGHIA (08/30/2021)
+     */
     toStringIdentityDate() {
       var sidentityDate = "";
       for (let i = 0; i < 10; i++) {
@@ -636,6 +697,12 @@ export default {
       return sidentityDate;
     },
 
+    /**
+     * Bắt sự kiện thay đổi dữ liệu của ô input ngày cấp
+     * created by: NHNGHIA (30/08/2021)
+     * param (e): kiểu sự kiện khi thay đổi
+     * created by: NHNGHIA (01/09/2021)
+     */
     onInputIdentityDate(e) {
       if (e.inputType != "deleteContentBackward") {
         var flagIndex = true;
@@ -714,36 +781,45 @@ export default {
       }
     },
 
+    /**
+     * kiểm tra các trường bắt buộc đã có dữ liệu chưa 
+     * created by: NHNGHIA (01/09/2021)
+     */
     validateEmptyField() {
       if (
         this.employeeInDialog.FullName == null ||
         this.employeeInDialog.FullName == ""
       ) {
-        this.emptyField = "Tên Nhân viên";
+        this.emptyField = MISA_RESOUCE.FULLNAME_FIELD;
         this.isFullNameEmpty = true;
         return false;
       } else if (
         this.employeeInDialog.EmployeeCode == null ||
         this.employeeInDialog.EmployeeCode == ""
       ) {
-        this.emptyField = "Mã Nhân viên";
+        this.emptyField = MISA_RESOUCE.CODE_FIELD;
         this.isCodeEmpty = true;
         return false;
       } else if (this.employeeInDialog.DepartmentId == null) {
-        this.emptyField = "Đơn vị";
-
+        this.emptyField = MISA_RESOUCE.DEPARTMENT_FIELD;
         return false;
       } else {
         return true;
       }
     },
 
-    autoComplete(){
-      if(this.toStringDateOfBirth().includes('_') || this.toStringDateOfBirth() == '__/__/____'){
+    /**
+     * Sự kiện khi blur ra khỏi ô input dạng date, tự động điền bằng ngày hiện tại
+     * created by: NHNGHIA (01/09/2021)
+     */
+    autoComplete() {
+      if (
+        this.toStringDateOfBirth().includes("_") ||
+        this.toStringDateOfBirth() == "__/__/____"
+      ) {
         this.employeeInDialog.DateOfBirth = this.dateNow;
       }
-    }
-
+    },
   },
 
   watch: {
@@ -766,11 +842,11 @@ export default {
     },
 
     "employeeIndialog.DateOfBirth": function (val) {
-      this.dateOfBirth = val.split('');
+      this.dateOfBirth = val.split("");
     },
 
     "employeeIndialog.IdentityDate": function () {
-      this.identityDate = this.employeeInDialog.IdentityDate.split('');
+      this.identityDate = this.employeeInDialog.IdentityDate.split("");
     },
 
     dateOfBirth: {
@@ -792,11 +868,9 @@ export default {
         this.employeeInDialog.DateOfBirth = Format.dobFormat(
           this.employee.DateOfBirth
         );
-        //this.dateOfBirth = this.employeeInDialog.DateOfBirth.split('');
         this.employeeInDialog.IdentityDate = Format.dobFormat(
           this.employee.IdentityDate
         );
-        //this.identityDate = this.employeeInDialog.IdentityDate.split('')
         this.employeeInDialogClone = JSON.parse(
           JSON.stringify(this.employeeInDialog)
         );
@@ -858,20 +932,25 @@ export default {
       employeeToAdd: EmployeeModel.newEmployee(),
       employeeInDialogClone: {},
       dateNow: Format.formatNewDate(new Date()),
+      listEmployeeCode: {},
+      popupDuplicateInfor: {
+        duplicateCode: "",
+      },
       emptyField: "",
       newEmployeeCode: "",
       isShowEmptyPopup: false,
       isShowInforChangePopup: false,
+      isShowDuplicatePopup: false,
       saveAndAddButtonInfor: {
-        buttonTitle: "Cất và Thêm",
+        buttonTitle: MISA_RESOUCE.BUTTON_SAVE_AND_ADD,
         isPrimaryButton: true,
       },
       saveButtonInfor: {
-        buttonTitle: "Cất",
+        buttonTitle: MISA_RESOUCE.BUTTON_SAVE,
         isSecondaryButton: true,
       },
       cancelButtonInfor: {
-        buttonTitle: "Hủy",
+        buttonTitle: MISA_RESOUCE.BUTTON_CANCEL,
         isSecondaryButton: true,
       },
       isCodeEmpty: false,

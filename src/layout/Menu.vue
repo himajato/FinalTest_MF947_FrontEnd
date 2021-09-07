@@ -1,8 +1,16 @@
 <template>
     <div class="menu">
         <div class="logo-container">
-            <a class="toggle-btn"></a>
-            <a class="img-icon"></a>
+            <a
+            @click="toggleSideBar"
+            v-if="isToggle"
+             class="header-icon-toggle"></a>
+            <a
+            v-if="!isToggle"
+             class="toggle-btn"></a>
+            <a
+             v-if="!isToggle"
+             class="img-icon"></a>
         </div>
         <div class="menu-items-list">
             <div class="menu-item">
@@ -68,6 +76,22 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    props:{
+        isToggle:{
+            type: Boolean,
+            require: true,
+        }
+    },
+    methods:{
+        toggleSideBar(){
+            this.$emit('toggleSideBar');
+        }
+    }
+}
+</script>
 
 <style scoped>
     @import url('../assets/css/layout/Menu.css');

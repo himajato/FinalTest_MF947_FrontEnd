@@ -1,4 +1,5 @@
 import BaseApi from "../base/BaseApi";
+import BaseApiConfig from '../base/BaseApiConfig.js'
 
 class EmployeeApi extends BaseApi{
     constructor() {
@@ -6,6 +7,9 @@ class EmployeeApi extends BaseApi{
         this.controller = "Employees"
     }
     
+    getAllCode(){
+        return BaseApiConfig.get(`${this.controller}/AllCode`);
+    }
 }
 
 export default new EmployeeApi();

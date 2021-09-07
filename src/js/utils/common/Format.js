@@ -1,6 +1,4 @@
 class Format{
-
-
     /**---------------------------------------------------------
     * Format ngày tháng năm sinh từ bảng vào form sửa thông tin
     * @param {date} dob 
@@ -57,7 +55,9 @@ class Format{
         }
         return genderName;
     }
-
+    /**
+     * Format ngày hiện tại
+     */
     formatNewDate(today){
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
