@@ -51,7 +51,9 @@
     />
 
     <Loader v-show="isShowLoader" />
-    <ToastMessenger :toastInfor="toastInfor" v-show="isShowToast" />
+    <transition name="slide-fade">
+        <ToastMessenger :toastInfor="toastInfor" v-show="isShowToast" />
+    </transition>
   </div>
 </template>
 
@@ -63,9 +65,10 @@ import PopupWarning from "../../../components/popup/PopupWarning.vue"
 import EmployeeApi from "../../../api/component/EmployeeApi.js"
 import DropdownFunction from "../../../components/DropdownFunction.vue"
 import Loader from "../../../components/Loader.vue"
-import Format from "../../utils/common/Format.js"
+import Format from "../../../js/utils/common/Format.js"
 import EmployeeModel from "../../../models/EmployeeModel.js"
 import ToastMessenger from "../../../components/ToastMesenger.vue"
+import {MISA_RESOUCE} from "../../../js/resouce/resouce.js"
 
 export default {
     components: {
@@ -101,7 +104,7 @@ export default {
                 .catch(() => {
                     this.isShowLoader = false;
                     this.toastInfor.isErrorToast = true;
-                    this.toastInfor.toastTitle = 'Có lỗi sảy ra, vui lòng liên hệ MISA';
+                    this.toastInfor.toastTitle = MISA_RESOUCE.TOAST_ERROR;
                     this.isShowToast = true;
                     setTimeout(() => {
                         this.isShowToast = false;
@@ -110,40 +113,54 @@ export default {
     },
 
     methods:{
+        /**
+         * Hiện thị toast mess thêm thành công
+         * created by: NHNGHIA (01/09/2021)
+         */
         showAddSuccessToast(){
             this.toastInfor.isErrorToast = false;
             this.toastInfor.isSucessToast = true;
-            this.toastInfor.toastTitle = 'Thêm mới thành công';
+            this.toastInfor.toastTitle = MISA_RESOUCE.TOAST_ADD_SUCCESS;
             this.isShowToast = true;
             setTimeout(() => {
                 this.isShowToast = false;
             }, 2000);
         },
 
+        /**
+         * Hiện thị toast cảnh báo lỗi
+         * created by: NHNGHIA (01/09/2021)
+         */
         showError(){
             this.toastInfor.isErrorToast = true;
             this.toastInfor.isSucessToast = false;
-            this.toastInfor.toastTitle = 'Có lỗi sảy ra từ server, vui lòng liên hệ MISA!';
+            this.toastInfor.toastTitle = MISA_RESOUCE.TOAST_ERROR;
             this.isShowToast = true;
             setTimeout(() => {
                 this.isShowToast = false;
             }, 2000);
         },
 
+        /**
+         * Hiện thị toast sửa thành công
+         */
         showUpdateSuccessToast(){
             this.toastInfor.isErrorToast = false;
             this.toastInfor.isSucessToast = true;
-            this.toastInfor.toastTitle = 'Sửa thông tin thành công';
+            this.toastInfor.toastTitle = MISA_RESOUCE.TOAST_UPDATE_SUCCESS;
             this.isShowToast = true;
             setTimeout(() => {
                 this.isShowToast = false;
             }, 2000);
         },
 
+        /**
+         * Hiện thị toast xóa thành công
+         */
         showDeleteSuccessToast(){
             this.toastInfor.isErrorToast = false;
             this.toastInfor.isSucessToast = true;
-            this.toastInfor.toastTitle = 'Xóa nhân viên thành công';
+            this.toastInfor.toastTitle = MISA_RESOUCE.TOAST_DELETE_SUCCESS;
             this.isShowToast = true;
             setTimeout(() => {
                 this.isShowToast = false;
@@ -164,7 +181,7 @@ export default {
                 });
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
-                link.download = "Danh sách nhân viên";
+                link.download = MISA_RESOUCE.EXCEL_FILE_NAME;
                 link.click();
                 URL.revokeObjectURL(link.href);
                 }
@@ -202,7 +219,7 @@ export default {
         reloadTable(){
             this.isShowLoader = true;
             this.$refs.tableContent.setCurrentPage(1);
-            EmployeeApi.getFilterPaging('',0,10).
+            EmployeeApi.getFilterPaging('',0,this.size).
                 then(res => {
                     this.isShowLoader = false;
                     //Format dữ liệu
@@ -251,7 +268,7 @@ export default {
          */
         onCoppyClick(){
             this.isShowDialog = true;
-            this.dialogMode = 2;
+            this.dialogMode = MISA_RESOUCE.DIALOG_MODE_COPY;
             this.employeeUpdate = this.employeeDeleteOrCoppy;
             this.$refs.EmployeeDialog.forcusFirstInput();
             this.isShowDropdownFunction = false;    
@@ -262,7 +279,8 @@ export default {
          * created by: NHNGHIA (01/09/2021)
          */
         onDeleteClick(){
-            this.confirmDeletePopUp.popUpDescription = `Bạn có thực sự muốn xóa Nhân Viên <${this.employeeDeleteOrCoppy.EmployeeCode}> không?`
+             //`Bạn có thực sự muốn xóa Nhân Viên <${this.employeeDeleteOrCoppy.EmployeeCode}> không?`
+            this.confirmDeletePopUp.popUpDescription = MISA_RESOUCE.POPUP_DELETE_CONFIRM.replace('EmployeeCode',`${this.employeeDeleteOrCoppy.EmployeeCode}`);
             this.isShowDeletePopup = true;
             this.isShowDropdownFunction = false;
             
@@ -280,10 +298,9 @@ export default {
                             this.isShowLoader = false;
                             this.reloadPage();
                             this.showDeleteSuccessToast();
-                        }).catch(err =>{
+                        }).catch(() =>{
                             this.isShowLoader = false;
                             this.reloadPage();
-                            console.log(err);
                             this.showError();
                         })
         },
@@ -344,13 +361,13 @@ export default {
          * Lấy vị trí và thông tin nhân viên của sự kiện click khi ấn vào các nút cột chức năng
          */
         getPosition(x,y,employeeId){
-            this.positionFunctionDropDown.top = y - 38;
-            this.positionFunctionDropDown.left = x - 286; 
+            this.positionFunctionDropDown.top = y + 10 ;
+            this.positionFunctionDropDown.left = x - 100; 
             this.isShowDropdownFunction = !this.isShowDropdownFunction;
             EmployeeApi.getById(employeeId).then(res =>{
                 this.employeeDeleteOrCoppy = res.data;
             }).catch(err =>{
-                alert('Lấy dữ liệu nhân viên thất bại')
+                this.showError();
                 console.log(err)
             })
         },
@@ -362,13 +379,13 @@ export default {
         getEmployeeUpdate(id){
             EmployeeApi.getById(id)
                 .then(res =>{
-                    this.dialogMode = 1;
+                    this.dialogMode = MISA_RESOUCE.DIALOG_MODE_UPDATE;
                     this.isShowDialog = true;
                     this.employeeUpdate = res.data;
                     this.$refs.EmployeeDialog.forcusFirstInput();         
                 })
-                .catch(res =>{
-                    console.log(res);
+                .catch(() =>{
+                    this.showError();
                 })
         },
 
@@ -377,15 +394,16 @@ export default {
          */
         closeDialog(){
             this.isShowDialog = false
-            this.dialogMode = -1;
+            this.dialogMode = MISA_RESOUCE.DIALOG_MODE_DEFAULT;
         },
 
         /**
          * Sự kiện khi click vào nút thêm mới nhân viên
          */
         openDialog(){   
-            this.dialogMode = 0;
-           this.isShowDialog = true;
+           this.dialogMode = MISA_RESOUCE.DIALOG_MODE_ADD;
+           this.isShowDialog = true;    
+           this.isShowDropdownFunction = false;
            this.$refs.EmployeeDialog.forcusFirstInput();
         },
 
@@ -402,7 +420,7 @@ export default {
         return{
             filter: '',
             currentPage: 1,
-            dialogMode: -1,
+            dialogMode: MISA_RESOUCE.DIALOG_MODE_DEFAULT,
             isShowLoader: false,
             employeeUpdate: EmployeeModel.newEmployee(),
             employeeDeleteOrCoppy: EmployeeModel.newEmployee(),
@@ -419,18 +437,31 @@ export default {
             isShowDeletePopup: false,
             isShowDialog : false,
             addButtonInfor:{
-                buttonTitle: "Thêm mới nhân viên",
+                buttonTitle: MISA_RESOUCE.BUTTON_ADD_NEW_EMPLOYEE,
                 isPrimaryButton: true,
             },
             confirmDeletePopUp:{
                 popUpDescription: "",
             },
             toastInfor:{
-                toastTitle: 'Load dữ liệu thành công',
+                toastTitle: MISA_RESOUCE.TOAST_LOAD_SUCCESS,
                 isSucessToast: false,
                 isErrorToast: false,
-            }
+            },
         }
     }
 }
 </script>
+
+<style>
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
